@@ -51,6 +51,10 @@ class ExampleSpider(scrapy.Spider):
         data['session']=response.xpath('//div[@class="game-details header"]/text()').getall()[0].strip('\n\t ')
         data['corner']=int(response.xpath('//td[@data-home-away="home"][@data-stat="wonCorners"]/text()').getall()[0])
         data['opcorner']=int(response.xpath('//td[@data-home-away="away"][@data-stat="wonCorners"]/text()').getall()[0])
+        data['id']=int(response.xpath('//link[@rel="canonical"]/@href').getall()[0][-6:])
+        if data['goal']>data['opGoal']:data['result']=3
+        elif data['goal']<data['opGoal']:data['result']=0
+        else :data['result']=1
         yield data
 
         
